@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  variables:
+    SAGEMAKER_PIPELINE_NAME: sagemaker-mlops-fraud-inference-pipeline
+    
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - pip install --upgrade pip
+      - pip install awscliv2
+  
+  build:
+    commands:
+      - echo "Start SageMaker Pipeline"
+      - export PYTHONUNBUFFERED=TRUE
+      - |
+        aws sagemaker start-pipeline-execution --pipeline-name $SAGEMAKER_PIPELINE_NAME --pipeline-execution-description "Pipeline execution triggered via Codebuild"
+      - echo "Exection of the SageMaker Pipeline completed."
