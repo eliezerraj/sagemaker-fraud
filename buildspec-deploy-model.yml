@@ -11,6 +11,8 @@ phases:
     commands:
       - pip install --upgrade pip
       - pip install awscliv2
+      - pip install boto3
+      - pip install sagemaker
   
   build:
     commands:
