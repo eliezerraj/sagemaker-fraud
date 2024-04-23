@@ -1,9 +1,5 @@
 version: 0.2
-
-env:
-  variables:
-    SAGEMAKER_PIPELINE_NAME: sagemaker-mlops-fraud-pipeline
-    
+  
 phases:
   install:
     runtime-versions:
@@ -16,8 +12,8 @@ phases:
   
   build:
     commands:
-      - echo "Start SageMaker Pipeline"
+      - echo "Start SageMaker Endpoint Creation"
       - export PYTHONUNBUFFERED=TRUE
       - |
         python3 create-mode-endconfig-end.py
-      - echo "Exection of the SageMaker Pipeline completed."
+      - echo "SageMaker Endpoint Completed."
