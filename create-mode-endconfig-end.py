@@ -3,6 +3,16 @@ import sagemaker
 from sagemaker import Session
 from sagemaker import get_execution_role
 
+# install libraries
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# load the requirements
+def install_requirements():
+    with open('/opt/ml/processing/input/req/requirements.txt', 'r') as f:
+        for line in f.readlines():
+            install(line.strip())
+            
 if __name__ == "__main__":
 
     # Loading enviroment variables...
@@ -63,6 +73,17 @@ if __name__ == "__main__":
                 "Environment": env_vars,
             }
         ],
+        #EnableNetworkIsolation=True,
+        #VpcConfig={
+        #    "SecurityGroupIds": [
+        #        "sg-071e23394778596b2"
+        #    ],
+        #    "Subnets": [
+        #        "subnet-0ca2d45be9d6ab5bc",
+        #        "subnet-0b2b57acbb1da0623",
+        #        "subnet-05d3e7f4611c12a23"
+        #    ]
+        #},
         ExecutionRoleArn=role,
     )
 
