@@ -47,6 +47,8 @@ if __name__ == "__main__":
                     'avg_30d',
                     'time_btw_cc_tx'], axis=1)
 
+    print("----------------------------------------")
+    print("1. featuring enginering")
     # featuring enginering
     # Create a new column distance
     df.insert(5, "distance", 0)
@@ -58,7 +60,6 @@ if __name__ == "__main__":
 
     # extract hour
     df["ts_payment_at"] = pd.to_datetime(df['payment_at'])
-    print(df.ts_payment_at.dtype)
     df["hour"] = df.ts_payment_at.dt.hour
 
     # 2nd filter dataframe
@@ -95,6 +96,9 @@ if __name__ == "__main__":
                     'avg_30d',
                     'time_btw_cc_tx'], axis=1)
 
+    print("----------------------------------------")
+    print("2. Split in Train, Test and Validation Datasets")
+
     # Split in Train, Test and Validation Datasets
     train_data, validation_data, test_data = np.split(df.sample(frac=1, random_state=1729), [int(0.7 * len(df)), int(0.9 * len(df))])
 
@@ -116,11 +120,17 @@ if __name__ == "__main__":
     x_validation = validation_data.iloc[:, validation_data.columns != "fraud"]
     y_validation = validation_data.iloc[:, validation_data.columns == "fraud"]
 
+    print("----------------------------------------")
+    print("3. SMOTE dataset")
+
     from imblearn.over_sampling import SMOTE
     x_train_smote, y_train_smote = SMOTE(random_state=1234).fit_resample(x_train, y_train)
     smote_value_counts = y_train_smote["fraud"].value_counts()
 
     print("Fraudulent transactions AFTER SMOTE are %.2f%% of the train_data." % (smote_value_counts[0] * 100 / len(y_train_smote)))
+
+    print("----------------------------------------")
+    print("4. Save the Dataframes as csv files")
 
     # Save the Dataframes as csv files
     train_data.to_csv(f"{base_dir}/train/train_data.csv", header=False, index=False)
@@ -137,4 +147,5 @@ if __name__ == "__main__":
     #x_test.to_csv(f"{base_dir}/test/x_test.csv", header=False, index=False)
     #y_test.to_csv(f"{base_dir}/test/y_test.csv", header=False, index=False)
 
+    print("----------------------------------------")
     print("## Processing completed. Exiting.")
