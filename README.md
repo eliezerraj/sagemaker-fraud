@@ -2,4 +2,8 @@
 
 Only for POC purposes 
 
-# Create the endpoint
+# create venv
+python3 -m venv .venv
+
+# activate
+source .venv/bin/activate
